@@ -64,9 +64,9 @@ write.csv(temp_data, here("river_temp_data.csv"))
 #| label: summary-stats
 #| echo: true
 
-temp_data <- read.csv(here("river_temp_data.csv"))
+data <- read.csv(here("river_temp_data.csv"))
   
-summary <- temp_data|>
+summary <- data|>
   select(agency_cd, site_no, temp_C, Date, month, year)|>
   group_by(site_no)|>
   summarise(mean_temp_c=mean(temp_C), max_temp_c=max(temp_C), min_temp_c=min(temp_C))
