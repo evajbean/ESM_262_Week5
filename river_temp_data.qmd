@@ -16,8 +16,8 @@ library(here)
 library(dplyr)
 ```
 
-
 # get water temperature data from the Willametter River from NWIS server
+
 ```{r}
 #| label: download
 #| echo: true
@@ -29,12 +29,6 @@ endDate <- "2023-12-31"
 
 temp_data <- readNWISdv(siteNumbers, parameterCd, startDate, endDate)
 ```
-
-# option to load data directly instead
-```{r}
-temp_data <- read.csv(here("river_temp_data.csv"))
-```
-
 
 clean the data
 
@@ -48,9 +42,14 @@ temp_data <- subset(temp_data, select = -5)
 temp_data$month = month(temp_data$Date, label=TRUE)
 temp_data$year = year(temp_data$Date)
 ```
+# option to load data directly instead
+
+```{r}
+temp_data <- read.csv(here("river_temp_data.csv"))
+```
+
 
 plot the data
-
 ```{r}
 #| label: plot
 #| echo: true
@@ -62,28 +61,16 @@ ggplot(temp_data, aes(x=Date, y=temp_C, color=site_no)) +
   theme_minimal()
 ```
 
-Calculate summary statistics
-```{r}
-temp_data |>
-  group_by(site_no) |>
-  summarize(mean = mean(temp_C),
-            min = min(temp_C),
-            max = max(temp_C),
-            stdev = sd(temp_C))
-```
-
 
 store the data
-
 ```{r}
 write.csv(temp_data, here("river_temp_data.csv"))
 ```
 
+Calculate summary statistics
 ```{r}
 #| label: summary-stats
 #| echo: true
-
-data <- read.csv(here("river_temp_data.csv"))
   
 summary <- data|>
   select(agency_cd, site_no, temp_C, Date, month, year)|>
@@ -92,8 +79,3 @@ summary <- data|>
 
 print(summary)
 ```
-
-
-
-
-
