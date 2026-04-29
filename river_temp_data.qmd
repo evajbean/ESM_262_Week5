@@ -72,7 +72,7 @@ Calculate summary statistics
 #| label: summary-stats
 #| echo: true
   
-summary <- data|>
+summary <- temp_data|>
   select(agency_cd, site_no, temp_C, Date, month, year)|>
   group_by(site_no)|>
   summarise(mean_temp_c=mean(temp_C), max_temp_c=max(temp_C), min_temp_c=min(temp_C))
