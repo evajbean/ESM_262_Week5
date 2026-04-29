@@ -1,0 +1,24 @@
+---
+title: "october data analysis"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+temp_data <- read.csv(here("river_temp_data.csv"))
+```
+
+```{r}
+# filter for July temperatures
+oct_data <- subset(temp_data, month == "Oct")
+oct_data$site_no <- as.factor(oct_data$site_no)
+# fit a GLM model to see if there is a trend in July temperatures over time, separated by site
+oct_model <- glm(temp_C ~ year*site_no, data = oct_data)
+summary(oct_model)
+```
+
