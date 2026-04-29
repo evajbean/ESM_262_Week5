@@ -4,15 +4,18 @@ format: html
 editor: visual
 ---
 
+load packages
 ```{r}
 library(tidyverse)
 ```
 
-
+load data
 ```{r}
 temp_data <- read.csv(here("river_temp_data.csv"))
 ```
 
+
+fit GLM model
 ```{r}
 # filter for July temperatures
 oct_data <- subset(temp_data, month == "Oct")
