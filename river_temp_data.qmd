@@ -5,14 +5,22 @@ editor: visual
 ---
 
 ## load packages
+
 ```{r}
+#| label: download
+#| echo: true
+#| warning: false
 library(dataRetrieval)
 library(tidyverse)
 library(here)
 library(dplyr)
 ```
+
+
 # get water temperature data from the Willametter River from NWIS server
 ```{r}
+#| label: download
+#| echo: true
 siteNumbers <- c("14211720", "14211010", "14166000")
 parameterCd <- "00010"  # water temperature
 startDate <- "2010-01-01"
@@ -28,7 +36,10 @@ temp_data <- read.csv(here("river_temp_data.csv"))
 
 
 clean the data
+
 ```{r}
+#| label: clean
+#| echo: true
 # rename columns for clarity
 colnames(temp_data) <- c("agency_cd", "site_no", "Date", "temp_C")
 temp_data <- subset(temp_data, select = -5)
@@ -38,7 +49,10 @@ temp_data$year = year(temp_data$Date)
 ```
 
 plot the data
+
 ```{r}
+#| label: plot
+#| echo: true
 # check by plotting
 ggplot(temp_data, aes(x=Date, y=temp_C, color=site_no)) +
   geom_line() +
@@ -59,7 +73,7 @@ temp_data |>
 
 
 store the data
+
 ```{r}
 write.csv(temp_data, here("river_temp_data.csv"))
 ```
-
