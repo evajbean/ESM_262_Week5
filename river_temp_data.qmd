@@ -20,6 +20,7 @@ library(here)
 ```{r}
 #| label: download
 #| echo: true
+#| warning: false
 siteNumbers <- c("14211720", "14211010", "14166000")
 parameterCd <- "00010"  # water temperature
 startDate <- "2010-01-01"
@@ -58,3 +59,22 @@ store the data
 ```{r}
 write.csv(temp_data, here("river_temp_data.csv"))
 ```
+
+```{r}
+#| label: summary-stats
+#| echo: true
+
+temp_data <- read.csv(here("river_temp_data.csv"))
+  
+summary <- temp_data|>
+  select(agency_cd, site_no, temp_C, Date, month, year)|>
+  group_by(site_no)|>
+  summarise(mean_temp_c=mean(temp_C), max_temp_c=max(temp_C), min_temp_c=min(temp_C))
+
+print(summary)
+```
+
+
+
+
+
