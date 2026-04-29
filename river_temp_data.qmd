@@ -9,8 +9,9 @@ editor: visual
 library(dataRetrieval)
 library(tidyverse)
 library(here)
+library(dplyr)
 ```
-# download water temperature data from the Willametter River
+# get water temperature data from the Willametter River from NWIS server
 ```{r}
 siteNumbers <- c("14211720", "14211010", "14166000")
 parameterCd <- "00010"  # water temperature
@@ -20,10 +21,17 @@ endDate <- "2023-12-31"
 temp_data <- readNWISdv(siteNumbers, parameterCd, startDate, endDate)
 ```
 
+# option to load data directly instead
+```{r}
+temp_data <- read.csv(here("river_temp_data.csv"))
+```
+
+
 clean the data
 ```{r}
 # rename columns for clarity
 colnames(temp_data) <- c("agency_cd", "site_no", "Date", "temp_C")
+temp_data <- subset(temp_data, select = -5)
 # extract some date info for use later
 temp_data$month = month(temp_data$Date, label=TRUE)
 temp_data$year = year(temp_data$Date)
@@ -38,6 +46,17 @@ ggplot(temp_data, aes(x=Date, y=temp_C, color=site_no)) +
        x="Date", y="Temperature (°C)", color="Site Number") +
   theme_minimal()
 ```
+
+Calculate summary statistics
+```{r}
+temp_data |>
+  group_by(site_no) |>
+  summarize(mean = mean(temp_C),
+            min = min(temp_C),
+            max = max(temp_C),
+            stdev = sd(temp_C))
+```
+
 
 store the data
 ```{r}
