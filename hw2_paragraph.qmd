@@ -6,4 +6,9 @@ editor: visual
 
 Across both April and October, only one site displayed a significant
 trend of water temperature across years. In both months, the GLM coefficients
-of sites 14166000 and 14211010 were all above 0.05
+of sites 14166000 and 14211010 were all above the significance threshold
+of 0.1. Site 1421170 had a p-value under 0.1 during October only. There was
+evidence of a positive trend (0.05 degrees per year) in October water 
+temperature across years at that site. Site 11421170 was the warmest on average
+across both April and October. Water temperatures were consistently warmer
+in October than April.

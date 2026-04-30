@@ -23,6 +23,7 @@ temp.data <- read.csv(here("river_temp_data.csv"))
 ```
 
 # Preparing Data for Analysis
+
 ```{r}
 #| label: clean-data
 #| echo: true
@@ -34,6 +35,7 @@ april.data <- temp.data|>
 ```
 
 ## Monthly Temperature Trends in April
+
 ```{r}
 #| label: glm
 #| echo: true
@@ -41,4 +43,5 @@ april.data <- temp.data|>
 april.lm <- glm(temp_c ~ year*as.factor(site_no), data=april.data)
 summary(april.lm)
 ```
+
 From the results of this General Linear Model, there is a slight positive trend in April river temperature across years at sites 14166000 and 14211720 and a slight negative trend in April river temperature change across years at site 14211010. However, these changes are insignificant as all relevant p-values are less than 0.05. We therefore fail to reject the null hypothesis that there is no change in April river temperature across years and sites in this area.
