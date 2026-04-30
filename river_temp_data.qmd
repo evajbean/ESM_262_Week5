@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-## load packages
+## Load packages
 
 ```{r}
 #| label: download
@@ -13,9 +13,10 @@ editor: visual
 library(dataRetrieval)
 library(tidyverse)
 library(here)
+library(janitor)
 ```
 
-# download water temperature data from the Willametter River
+# Download water temperature data from the Willamette River
 
 ```{r}
 #| label: download
