@@ -1,0 +1,87 @@
+---
+title: "summary_qmd"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: libraries
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(patchwork)
+```
+
+
+```{r}
+#| label: load-data
+#| echo: true
+
+temp_data <- read.csv(here("river_temp_data.csv"))
+```
+
+```{r}
+#| label: summary
+#| echo: true
+
+summary <- temp_data|>
+  select(agency_cd, site_no, temp_C, Date, month, year)|>
+  group_by(site_no)|>
+  summarise(mean_temp_c=mean(temp_C), max_temp_c=max(temp_C), min_temp_c=min(temp_C))
+
+print(summary)
+```
+
+```{r}
+#| label: october
+#| echo: true
+
+# filter for Otober temperatures
+oct_data <- subset(temp_data, month == "Oct")
+oct_data$site_no <- as.factor(oct_data$site_no)
+# fit a GLM model to see if there is a trend in October temperatures over time, separated by site
+oct_model <- glm(temp_C ~ year*site_no, data = oct_data)
+summary(oct_model)
+```
+
+At sites 14166000 and 14211010, there is no significant trend in October water temperatures across years. Both sites have a p-value over a significance level of 0.1 (0.558 and 0.151, respectively.) At site 14211720, there could be a significant positive relationship between year and October water temperatures. This is evidenced by the p-value of 0.066, which is less than 0.1. Based on the GLM, we would expect a 0.054 degree Celcius increase in water temperature per year.
+
+```{r}
+#| label: april
+#| echo: true
+
+april.data <- temp.data|>
+  select(agency_cd,site_no,temp_C,Date,month,year)|>
+  filter(month=="Apr")|>
+  clean_names()
+
+
+april.lm <- glm(temp_c ~ year*as.factor(site_no), data=april.data)
+summary(april.lm)
+```
+
+From the results of this General Linear Model, there is a slight positive trend in April river temperature across years at sites 14166000 and 14211720 and a slight negative trend in April river temperature change across years at site 14211010. However, these changes are insignificant as all relevant p-values are less than 0.05. We therefore fail to reject the null hypothesis that there is no change in April river temperature across years and sites in this area.
+
+```{r}
+#| label: plot
+#| echo: false
+
+oct_plot <- ggplot(oct_data, aes(x=site_no, y=temp_C))+
+  geom_boxplot() +
+  ylim(0,20)+
+  labs(title="October",
+       x="Site Number", y="Temperature (°C)") +
+  theme_bw()
+
+april_plot <- ggplot(april.data, aes(x=as.factor(site_no), y=temp_c))+
+  geom_boxplot() +
+  ylim(0,20)+
+  labs(title="April", x="Site Number", y="Temperature (°C)")+
+  theme_bw()
+
+april_plot
+oct_plot+april_plot
+```
