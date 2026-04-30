@@ -1,0 +1,9 @@
+---
+title: "paragraph"
+format: html
+editor: visual
+---
+
+Across both April and October, only one site displayed a significant
+trend of water temperature across years. In both months, the GLM coefficients
+of sites 14166000 and 14211010 were all above 0.05
