@@ -13,17 +13,11 @@ editor: visual
 library(dataRetrieval)
 library(tidyverse)
 library(here)
-<<<<<<< HEAD
 library(janitor)
-```
-
-# Download water temperature data from the Willamette River
-=======
 library(dplyr)
 ```
 
-# get water temperature data from the Willametter River from NWIS server
->>>>>>> 2f7abeb08fcb78993b4578be15db1ad6f8cf5f13
+# Get water temperature data from the Willamette River from NWIS server
 
 ```{r}
 #| label: download
@@ -49,14 +43,15 @@ temp_data <- subset(temp_data, select = -5)
 temp_data$month = month(temp_data$Date, label=TRUE)
 temp_data$year = year(temp_data$Date)
 ```
-# option to load data directly instead
+
+# Option to load data directly instead
 
 ```{r}
 temp_data <- read.csv(here("river_temp_data.csv"))
 ```
 
 
-plot the data
+# Plot the data
 ```{r}
 #| label: plot
 #| echo: true
@@ -69,12 +64,12 @@ ggplot(temp_data, aes(x=Date, y=temp_C, color=site_no)) +
 ```
 
 
-store the data
+# Store the data
 ```{r}
 write.csv(temp_data, here("river_temp_data.csv"))
 ```
 
-Calculate summary statistics
+# Calculate summary statistics
 ```{r}
 #| label: summary-stats
 #| echo: true
@@ -86,7 +81,7 @@ summary <- temp_data|>
 
 print(summary)
 ```
-<<<<<<< HEAD
+
 ```{r}
 #| label: load-data
 #| echo: false
@@ -114,5 +109,4 @@ april.lm <- glm(temp_c ~ year*as.factor(site_no), data=april.data)
 summary(april.lm)
 ```
 From the results of this General Linear Model, there is a slight positive trend in April river temperature across years at sites 14166000 and 14211720 and a slight negative trend in April river temperature change across years at site 14211010. However, these changes are insignificant as all relevant p-values are less than 0.05. We therefore fail to reject the null hypothesis that there is no change in April river temperature across years and sites in this area.
-=======
->>>>>>> 2f7abeb08fcb78993b4578be15db1ad6f8cf5f13
+
